@@ -110,6 +110,9 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
+                        <Bundle-Activator>
+                            systems.dmx.dita.DITAPlugin
+                        </Bundle-Activator>
                         <Import-Package>
                             !com.fasterxml.jackson.annotation, !com.google.errorprone.annotations.*,
                             !com.icl.saxon, !com.sun.org.apache.xerces.internal.jaxp, !org.apache.xalan.processor,
