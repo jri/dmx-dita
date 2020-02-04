@@ -14,7 +14,115 @@
         <groupId>systems.dmx</groupId>
         <artifactId>dmx-plugin</artifactId>
         <version>5.0-beta-7-SNAPSHOT</version>
-        <relativePath>../dmx-plugin/pom.xml</relativePath>
+        <relativePath>../../modules/dmx-plugin/pom.xml</relativePath>
     </parent>
 
+    <dependencies>
+        <!-- DITA Open Toolkit -->
+        <dependency>
+            <groupId>org.dita-ot</groupId>
+            <artifactId>dost</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.4.01</version>
+        </dependency>
+        <dependency>
+            <groupId>xml-resolver</groupId>
+            <artifactId>xml-resolver</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>9.9.1-4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>61.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>25.1-jre</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>j2objc-annotations</artifactId>
+                    <groupId>com.google.j2objc</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jsr305</artifactId>
+                    <groupId>com.google.code.findbugs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>animal-sniffer-annotations</artifactId>
+                    <groupId>org.codehaus.mojo</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>checker-qual</artifactId>
+                    <groupId>org.checkerframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>error_prone_annotations</artifactId>
+                    <groupId>com.google.errorprone</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.9.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.relaxng</groupId>
+            <artifactId>jing</artifactId>
+            <version>20181222</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Import-Package>
+                            !com.fasterxml.jackson.annotation, !com.google.errorprone.annotations.*,
+                            !com.icl.saxon, !com.sun.org.apache.xerces.internal.jaxp, !org.apache.xalan.processor,
+                            !org.apache.tools.ant.*, !org.apache.tools.zip, !org.yaml.snakeyaml.*,
+                            !org.iso_relax.verifier.*, !ch.qos.logback.*, !org.slf4j.*, !sun.io, !sun.misc, *
+                        </Import-Package>
+                        <Embed-Dependency>
+                            dost, commons-io, xercesImpl, xml-apis, xml-resolver, Saxon-HE, icu4j, guava,
+                            jackson-core, jackson-databind, jackson-dataformat-yaml, jing
+                        </Embed-Dependency>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
