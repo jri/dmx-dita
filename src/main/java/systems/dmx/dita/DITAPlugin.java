@@ -42,14 +42,15 @@ public class DITAPlugin extends PluginActivator {
     public void process() {
         try {
             logger.info("### plugindirs=" + Configuration.configuration.get("plugindirs"));
+            logger.info("### validate=" + Configuration.configuration.get("validate"));
             logger.info("### transtypes=" + Configuration.transtypes);
             logger.info("### printTranstype=" + Configuration.printTranstype);
             ProcessorFactory pf = ProcessorFactory.newInstance(DITA_DIR);
-            // pf.setBaseTempDir(tempDir);
+            pf.setBaseTempDir(new File("/Users/jri/Documents/Test/dita-ot/tmp"));
             // Create a processor using the factory and configure the processor
-            Processor p = pf.newProcessor("pdf");
-                //.setInput(mapFile)
-                //.setOutputDir(outDir)
+            Processor p = pf.newProcessor("html5")
+                .setInput(new File("/usr/local/Cellar/dita-ot/3.4/libexec/docsrc/samples/sequence.ditamap"))
+                .setOutputDir(new File("/Users/jri/Documents/Test/dita-ot"));
                 //.setProperty("nav-toc", "partial");
             //
             // Run conversion

@@ -25,6 +25,11 @@
             <version>3.4.0</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant-apache-resolver</artifactId>
+            <version>1.10.6</version>
+        </dependency>
+        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.6</version>
@@ -55,6 +60,17 @@
             <version>61.1</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.10.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant-launcher</artifactId>
+            <version>1.10.6</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>25.1-jre</version>
@@ -80,6 +96,26 @@
                     <groupId>com.google.errorprone</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -116,11 +152,14 @@
                         <Import-Package>
                             !com.fasterxml.jackson.annotation, !com.google.errorprone.annotations.*,
                             !com.icl.saxon, !com.sun.org.apache.xerces.internal.jaxp, !org.apache.xalan.processor,
-                            !org.apache.tools.ant.*, !org.apache.tools.zip, !org.yaml.snakeyaml.*,
-                            !org.iso_relax.verifier.*, !ch.qos.logback.*, !org.slf4j.*, !sun.io, !sun.misc, *
+                            !org.apache.tools.zip, !org.yaml.snakeyaml.*,
+                            !groovy.lang, !org.codehaus.groovy.*, !org.codehaus.commons.compiler, !org.codehaus.janino,
+                            !org.iso_relax.verifier.*, !javax.mail.*, !sun.io, !sun.misc, !sun.reflect, *
                         </Import-Package>
                         <Embed-Dependency>
-                            dost, commons-io, xercesImpl, xml-apis, xml-resolver, Saxon-HE, icu4j, guava,
+                            dost, ant, ant-launcher, ant-apache-resolver,
+                            commons-io, xercesImpl, xml-apis, xml-resolver, Saxon-HE, icu4j,
+                            guava, slf4j-api, slf4j-jdk14, logback-classic, logback-core,
                             jackson-core, jackson-databind, jackson-dataformat-yaml, jing
                         </Embed-Dependency>
                     </instructions>
