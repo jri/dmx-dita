@@ -152,7 +152,7 @@
                         <Import-Package>
                             !com.fasterxml.jackson.annotation, !com.google.errorprone.annotations.*,
                             !com.icl.saxon, !com.sun.org.apache.xerces.internal.jaxp, !org.apache.xalan.processor,
-                            !org.apache.tools.zip, !org.yaml.snakeyaml.*,
+                            !org.yaml.snakeyaml.*,
                             !groovy.lang, !org.codehaus.groovy.*, !org.codehaus.commons.compiler, !org.codehaus.janino,
                             !org.iso_relax.verifier.*, !javax.mail.*, !sun.io, !sun.misc, !sun.reflect, *
                         </Import-Package>

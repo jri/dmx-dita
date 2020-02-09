@@ -40,11 +40,23 @@ public class DITAPlugin extends PluginActivator {
     @GET
     @Path("/process")
     public void process() {
+        ClassLoader originalContextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
-            logger.info("### plugindirs=" + Configuration.configuration.get("plugindirs"));
-            logger.info("### validate=" + Configuration.configuration.get("validate"));
-            logger.info("### transtypes=" + Configuration.transtypes);
-            logger.info("### printTranstype=" + Configuration.printTranstype);
+            ClassLoader bundleClassloader = getClass().getClassLoader();
+            Thread.currentThread().setContextClassLoader(bundleClassloader);
+
+            logger.info("### org.osgi.framework.bootdelegation=" +
+                System.getProperty("org.osgi.framework.bootdelegation"));
+            logger.info("### org.osgi.framework.system.packages.extra=" +
+                System.getProperty("org.osgi.framework.system.packages.extra") + "\n");
+
+            logger.info("### Current ClassLoader=" + originalContextClassLoader + ", parent=" +
+                originalContextClassLoader.getParent());
+            logger.info("### Bundle ClassLoader=" + bundleClassloader + ", parent=" +
+                bundleClassloader.getParent() + "\n");
+
+            logger.info("### Available transtypes=" + Configuration.transtypes + "\n");
+
             ProcessorFactory pf = ProcessorFactory.newInstance(DITA_DIR);
             pf.setBaseTempDir(new File("/Users/jri/Documents/Test/dita-ot/tmp"));
             // Create a processor using the factory and configure the processor
@@ -52,11 +64,13 @@ public class DITAPlugin extends PluginActivator {
                 .setInput(new File("/usr/local/Cellar/dita-ot/3.4/libexec/docsrc/samples/sequence.ditamap"))
                 .setOutputDir(new File("/Users/jri/Documents/Test/dita-ot"));
                 //.setProperty("nav-toc", "partial");
-            //
+
             // Run conversion
             p.run();
         } catch (Exception e) {
             throw new RuntimeException("DITA processing failed", e);
+        } finally {
+            Thread.currentThread().setContextClassLoader(originalContextClassLoader);
         }
     }
 
