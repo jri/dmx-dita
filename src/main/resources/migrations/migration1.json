@@ -1,0 +1,65 @@
+{
+  "topic_types": [
+    // DITA Topic
+    {
+      "value":       "Title",
+      "uri":         "dmx.dita.title",
+      "dataTypeUri": "dmx.core.text"
+    },
+    {
+      "value":       "Body",
+      "uri":         "dmx.dita.body",
+      "dataTypeUri": "dmx.core.html"
+    },
+    {
+      "value":       "DITA Topic",
+      "uri":         "dmx.dita.topic",
+      "dataTypeUri": "dmx.core.identity",
+      "compDefs": [
+        {
+          "childTypeUri":        "dmx.dita.title",
+          "childCardinalityUri": "dmx.core.one"
+        },
+        {
+          "childTypeUri":        "dmx.dita.body",
+          "childCardinalityUri": "dmx.core.one"
+        }
+      ],
+      "viewConfigTopics": [
+        {
+          "typeUri": "dmx.webclient.view_config",
+          "children": {
+            "dmx.webclient.icon": "\uf10e",
+            "dmx.webclient.add_to_create_menu": true
+          }
+        }
+      ]
+    },
+    // DITA Processor
+    {
+      "value":       "DITA Processor Name",
+      "uri":         "dmx.dita.processor_name",
+      "dataTypeUri": "dmx.core.text"
+    },
+    {
+      "value":       "DITA Processor",
+      "uri":         "dmx.dita.processor",
+      "dataTypeUri": "dmx.core.identity",
+      "compDefs": [
+        {
+          "childTypeUri":        "dmx.dita.processor_name",
+          "childCardinalityUri": "dmx.core.one"
+        }
+      ],
+      "viewConfigTopics": [
+        {
+          "typeUri": "dmx.webclient.view_config",
+          "children": {
+            "dmx.webclient.icon": "\uf013",
+            "dmx.webclient.add_to_create_menu": true
+          }
+        }
+      ]
+    }
+  ]
+}
