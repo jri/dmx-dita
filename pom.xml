@@ -18,6 +18,12 @@
     </parent>
 
     <dependencies>
+        <!-- DMX -->
+        <dependency>
+            <groupId>systems.dmx</groupId>
+            <artifactId>dmx-topicmaps</artifactId>
+            <version>5.0-beta-7-SNAPSHOT</version>
+        </dependency>
         <!-- DITA Open Toolkit -->
         <dependency>
             <groupId>org.dita-ot</groupId>

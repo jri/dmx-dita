@@ -1,6 +1,9 @@
 package systems.dmx.dita;
 
+import systems.dmx.core.Topic;
 import systems.dmx.core.osgi.PluginActivator;
+import systems.dmx.core.service.Inject;
+import systems.dmx.topicmaps.TopicmapsService;
 
 import org.dita.dost.Processor;
 import org.dita.dost.ProcessorFactory;
@@ -24,7 +27,7 @@ import java.util.logging.Logger;
 @Path("/dita")
 @Consumes("application/json")
 @Produces("application/json")
-public class DITAPlugin extends PluginActivator {
+public class DITAPlugin extends PluginActivator implements DITAConstants {
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
@@ -33,6 +36,11 @@ public class DITAPlugin extends PluginActivator {
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
+    @Inject
+    private TopicmapsService tmService;
+
+    private TopicmapNavigation tmNav;   // TODO: thread-safety
+
     private Logger logger = Logger.getLogger(getClass().getName());
 
     // -------------------------------------------------------------------------------------------------- Public Methods
@@ -40,23 +48,37 @@ public class DITAPlugin extends PluginActivator {
     @PUT
     @Path("/process/{id}/topicmap/{topicmapId}")
     public void process(@PathParam("id") long processorId, @PathParam("topicmapId") long topicmapId) {
-        ClassLoader originalContextClassLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            tmNav = new TopicmapNavigation(topicmapId, tmService, dmx);
+            findStartTopic(processorId);
+            _process();
+        } catch (Exception e) {
+            throw new RuntimeException("DITA processing failed, processorId=" + processorId + ", topicmapId=" +
+                topicmapId, e);
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------------- Private Methods
+
+    private Topic findStartTopic(long processorId) {
+        try {
+            Topic topic = tmNav.getRelatedTopic(processorId, PROCESSOR_START, ROLE_TYPE_PROCESSOR, ROLE_TYPE_START, null);
+            if (topic == null) {
+                throw new RuntimeException("No start topic defined");
+            }
+            return topic;
+        } catch (Exception e) {
+            throw new RuntimeException("Finding start topic failed", e);
+        }
+    }
+
+    private void _process() {
+        ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             ClassLoader bundleClassloader = getClass().getClassLoader();
             Thread.currentThread().setContextClassLoader(bundleClassloader);
-
-            logger.info("### org.osgi.framework.bootdelegation=" +
-                System.getProperty("org.osgi.framework.bootdelegation"));
-            logger.info("### org.osgi.framework.system.packages.extra=" +
-                System.getProperty("org.osgi.framework.system.packages.extra") + "\n");
-
-            logger.info("### Current ClassLoader=" + originalContextClassLoader + ", parent=" +
-                originalContextClassLoader.getParent());
-            logger.info("### Bundle ClassLoader=" + bundleClassloader + ", parent=" +
-                bundleClassloader.getParent() + "\n");
-
-            logger.info("### Available transtypes=" + Configuration.transtypes + "\n");
-
+            logDebugInfo(currentClassLoader, bundleClassloader);
+            //
             ProcessorFactory pf = ProcessorFactory.newInstance(DITA_DIR);
             pf.setBaseTempDir(new File("/Users/jri/Documents/Test/dita-ot/tmp"));
             // Create a processor using the factory and configure the processor
@@ -64,16 +86,21 @@ public class DITAPlugin extends PluginActivator {
                 .setInput(new File("/usr/local/Cellar/dita-ot/3.4/libexec/docsrc/samples/sequence.ditamap"))
                 .setOutputDir(new File("/Users/jri/Documents/Test/dita-ot"));
                 //.setProperty("nav-toc", "partial");
-
-            // Run conversion
+            //
             p.run();
         } catch (Exception e) {
-            throw new RuntimeException("DITA processing failed, processorId=" + processorId + ", topicmapId=" +
-                topicmapId, e);
+            throw new RuntimeException("Running DITA-OT failed", e);
         } finally {
-            Thread.currentThread().setContextClassLoader(originalContextClassLoader);
+            Thread.currentThread().setContextClassLoader(currentClassLoader);
         }
     }
 
-    // ------------------------------------------------------------------------------------------------- Private Methods
+    private void logDebugInfo(ClassLoader currentClassLoader, ClassLoader bundleClassloader) {
+        logger.info("### org.osgi.framework.bootdelegation=" + System.getProperty("org.osgi.framework.bootdelegation"));
+        logger.info("### org.osgi.framework.system.packages.extra=" +
+            System.getProperty("org.osgi.framework.system.packages.extra") + "\n");
+        logger.info("### Current ClassLoader=" + currentClassLoader + ", parent=" + currentClassLoader.getParent());
+        logger.info("### Bundle ClassLoader=" + bundleClassloader + ", parent=" + bundleClassloader.getParent() + "\n");
+        logger.info("### Available transtypes=" + Configuration.transtypes + "\n");
+    }
 }
