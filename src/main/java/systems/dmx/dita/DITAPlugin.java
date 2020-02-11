@@ -37,9 +37,9 @@ public class DITAPlugin extends PluginActivator {
 
     // -------------------------------------------------------------------------------------------------- Public Methods
 
-    @GET
-    @Path("/process")
-    public void process() {
+    @PUT
+    @Path("/process/{id}/topicmap/{topicmapId}")
+    public void process(@PathParam("id") long processorId, @PathParam("topicmapId") long topicmapId) {
         ClassLoader originalContextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             ClassLoader bundleClassloader = getClass().getClassLoader();
@@ -68,7 +68,8 @@ public class DITAPlugin extends PluginActivator {
             // Run conversion
             p.run();
         } catch (Exception e) {
-            throw new RuntimeException("DITA processing failed", e);
+            throw new RuntimeException("DITA processing failed, processorId=" + processorId + ", topicmapId=" +
+                topicmapId, e);
         } finally {
             Thread.currentThread().setContextClassLoader(originalContextClassLoader);
         }
