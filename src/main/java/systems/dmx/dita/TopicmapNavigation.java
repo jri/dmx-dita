@@ -2,7 +2,6 @@ package systems.dmx.dita;
 
 import systems.dmx.core.service.CoreService;
 import systems.dmx.core.RelatedTopic;
-import systems.dmx.core.Topic;
 import systems.dmx.topicmaps.TopicmapsService;
 
 import java.util.List;
@@ -48,7 +47,8 @@ public class TopicmapNavigation {
 
     // ------------------------------------------------------------------------------------------------- Private Methods
 
-    private boolean isInTopicmap(Topic topic) {
-        return tmService.getTopicMapcontext(topicmapId, topic.getId()) != null;
+    private boolean isInTopicmap(RelatedTopic topic) {
+        // Both must be in map, the topic and the rel assoc; checking the assoc is suficient
+        return tmService.getAssocMapcontext(topicmapId, topic.getRelatingAssoc().getId()) != null;
     }
 }
