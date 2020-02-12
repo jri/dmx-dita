@@ -1,7 +1,10 @@
 package systems.dmx.dita;
 
+import systems.dmx.core.model.AssocModel;
 import systems.dmx.core.osgi.PluginActivator;
 import systems.dmx.core.service.Inject;
+import systems.dmx.core.service.event.PreCreateAssoc;
+import systems.dmx.core.util.DMXUtils;
 import systems.dmx.topicmaps.TopicmapsService;
 
 import javax.ws.rs.GET;
@@ -18,7 +21,7 @@ import java.util.logging.Logger;
 @Path("/dita")
 @Consumes("application/json")
 @Produces("application/json")
-public class DITAPlugin extends PluginActivator {
+public class DITAPlugin extends PluginActivator implements DITAConstants, PreCreateAssoc {
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -38,5 +41,14 @@ public class DITAPlugin extends PluginActivator {
             throw new RuntimeException("DITA processing failed, processorId=" + processorId + ", topicmapId=" +
                 topicmapId, e);
         }
+    }
+
+    // Listeners
+
+    @Override
+    public void preCreateAssoc(AssocModel assoc) {
+        // DITA Topic <-> DITA Topic
+        DMXUtils.associationAutoTyping(assoc, DITA_TOPIC, DITA_TOPIC,
+            SEQUENCE, ROLE_TYPE_PREDECESSOR, ROLE_TYPE_SUCCESSOR);
     }
 }
