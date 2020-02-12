@@ -1,8 +1,6 @@
 package systems.dmx.dita;
 
-
-
-public interface DITAConstants {
+public class Constants {
 
     // topic types
     static final String DITA_TOPIC            = "dmx.dita.topic";

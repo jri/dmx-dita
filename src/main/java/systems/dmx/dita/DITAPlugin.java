@@ -1,5 +1,7 @@
 package systems.dmx.dita;
 
+import static systems.dmx.dita.Constants.*;
+
 import systems.dmx.core.model.AssocModel;
 import systems.dmx.core.osgi.PluginActivator;
 import systems.dmx.core.service.Inject;
@@ -21,7 +23,7 @@ import java.util.logging.Logger;
 @Path("/dita")
 @Consumes("application/json")
 @Produces("application/json")
-public class DITAPlugin extends PluginActivator implements DITAConstants, PreCreateAssoc {
+public class DITAPlugin extends PluginActivator implements PreCreateAssoc {
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -36,7 +38,7 @@ public class DITAPlugin extends PluginActivator implements DITAConstants, PreCre
     @Path("/process/{id}/topicmap/{topicmapId}")
     public void process(@PathParam("id") long processorId, @PathParam("topicmapId") long topicmapId) {
         try {
-            new DITAProcess(processorId, topicmapId, tmService, dmx).run();
+            new DITAProcess(processorId, topicmapId, tmService, dmx); //.run();
         } catch (Exception e) {
             throw new RuntimeException("DITA processing failed, processorId=" + processorId + ", topicmapId=" +
                 topicmapId, e);

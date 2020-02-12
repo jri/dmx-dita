@@ -1,5 +1,7 @@
 package systems.dmx.dita;
 
+import static systems.dmx.dita.Constants.*;
+
 import systems.dmx.core.service.CoreService;
 import systems.dmx.core.Topic;
 import systems.dmx.topicmaps.TopicmapsService;
@@ -15,12 +17,13 @@ import java.util.logging.Logger;
 
 
 
-public class DITAProcess implements DITAConstants {
+class DITAProcess {
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
     // DITA-OT base directory
     private static final File DITA_DIR = new File("/usr/local/Cellar/dita-ot/3.4/libexec");
+    private static final File TEMP_DIR = new File("/Users/jri/Documents/Test/dita-ot/tmp");
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -42,6 +45,7 @@ public class DITAProcess implements DITAConstants {
         tmNav = new TopicmapNavigation(topicmapId, tmService, dmx);
         List<Topic> sequence = findTopicSequence(processorId);
         logger.info("Topics in sequence: " + sequence.size());
+        new DITAExporter(TEMP_DIR).export(sequence);
     }
 
     // ----------------------------------------------------------------------------------------- Package Private Methods
@@ -54,7 +58,7 @@ public class DITAProcess implements DITAConstants {
             logDebugInfo(currentClassLoader, bundleClassloader);
             //
             ProcessorFactory pf = ProcessorFactory.newInstance(DITA_DIR);
-            pf.setBaseTempDir(new File("/Users/jri/Documents/Test/dita-ot/tmp"));
+            pf.setBaseTempDir(TEMP_DIR);
             // Create a processor using the factory and configure the processor
             Processor p = pf.newProcessor("html5")
                 .setInput(new File("/usr/local/Cellar/dita-ot/3.4/libexec/docsrc/samples/sequence.ditamap"))
