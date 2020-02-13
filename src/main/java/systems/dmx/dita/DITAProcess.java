@@ -21,9 +21,9 @@ class DITAProcess {
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
-    // DITA-OT base directory
-    private static final File DITA_DIR = new File("/usr/local/Cellar/dita-ot/3.4/libexec");
-    private static final File TEMP_DIR = new File("/Users/jri/Documents/Test/dita-ot/tmp");
+    private static final File DITA_DIR   = new File("/usr/local/Cellar/dita-ot/3.4/libexec");
+    private static final File OUTPUT_DIR = new File("/Users/jri/Documents/Test/dita-ot");
+    private static final File TEMP_DIR   = new File("/Users/jri/Documents/Test/dita-ot/tmp");
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -51,8 +51,9 @@ class DITAProcess {
     // ----------------------------------------------------------------------------------------- Package Private Methods
 
     void run() {
-        ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
+        ClassLoader currentClassLoader = null;
         try {
+            currentClassLoader = Thread.currentThread().getContextClassLoader();
             ClassLoader bundleClassloader = getClass().getClassLoader();
             Thread.currentThread().setContextClassLoader(bundleClassloader);
             logDebugInfo(currentClassLoader, bundleClassloader);
@@ -61,8 +62,9 @@ class DITAProcess {
             pf.setBaseTempDir(TEMP_DIR);
             // Create a processor using the factory and configure the processor
             Processor p = pf.newProcessor("html5")
-                .setInput(new File("/usr/local/Cellar/dita-ot/3.4/libexec/docsrc/samples/sequence.ditamap"))
-                .setOutputDir(new File("/Users/jri/Documents/Test/dita-ot"));
+                //.setInput(new File("/usr/local/Cellar/dita-ot/3.4/libexec/docsrc/samples/sequence.ditamap"))
+                .setInput(new File(TEMP_DIR, topicmapId + ".xml"))
+                .setOutputDir(OUTPUT_DIR);
                 //.setProperty("nav-toc", "partial");
             //
             p.run();

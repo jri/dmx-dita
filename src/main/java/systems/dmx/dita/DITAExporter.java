@@ -18,6 +18,9 @@ class DITAExporter {
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
+    public static final String DOCTYPE_TOPIC = "<!DOCTYPE topic PUBLIC \"-//OASIS//DTD DITA Topic//EN\" \"topic.dtd\">";
+    public static final String DOCTYPE_MAP   = "<!DOCTYPE map PUBLIC \"-//OASIS//DTD DITA Map//EN\" \"map.dtd\">";
+
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
     private File outputDir;
@@ -46,7 +49,9 @@ class DITAExporter {
             XMLStreamWriter writer = xmlFactory.createXMLStreamWriter(bf);
             ChildTopics ct = topic.getChildTopics();
             writer.writeStartDocument();
+            writer.writeDTD(DOCTYPE_TOPIC);
             writer.writeStartElement("topic");
+            writer.writeAttribute("id", "topic-" + topic.getId());
             writer.writeStartElement("title");
             writer.writeCharacters(ct.getString("dmx.dita.title"));
             writer.writeEndElement();
@@ -64,6 +69,7 @@ class DITAExporter {
         try (BufferedWriter bf = newFileWriter(topicmap.getId() + ".xml")) {
             XMLStreamWriter writer = xmlFactory.createXMLStreamWriter(bf);
             writer.writeStartDocument();
+            writer.writeDTD(DOCTYPE_MAP);
             writer.writeStartElement("map");
             writer.writeStartElement("title");
             writer.writeCharacters(topicmap.getSimpleValue().toString());
@@ -80,6 +86,7 @@ class DITAExporter {
         try {
             writer.writeStartElement("topicref");
             writer.writeAttribute("href", topic.getId() + ".xml");
+            writer.writeAttribute("type", "topic");
             writer.writeEndElement();
         } catch (Exception e) {
             throw new RuntimeException("Writing <topicref> element for topic " + topic.getId() + " failed", e);

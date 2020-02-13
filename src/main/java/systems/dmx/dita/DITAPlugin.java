@@ -38,7 +38,7 @@ public class DITAPlugin extends PluginActivator implements PreCreateAssoc {
     @Path("/process/{id}/topicmap/{topicmapId}")
     public void process(@PathParam("id") long processorId, @PathParam("topicmapId") long topicmapId) {
         try {
-            new DITAProcess(processorId, topicmapId, tmService, dmx); //.run();
+            new DITAProcess(processorId, topicmapId, tmService, dmx).run();
         } catch (Exception e) {
             throw new RuntimeException("DITA processing failed, processorId=" + processorId + ", topicmapId=" +
                 topicmapId, e);
