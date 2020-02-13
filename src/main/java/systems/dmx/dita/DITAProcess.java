@@ -45,7 +45,7 @@ class DITAProcess {
         tmNav = new TopicmapNavigation(topicmapId, tmService, dmx);
         List<Topic> sequence = findTopicSequence(processorId);
         logger.info("Topics in sequence: " + sequence.size());
-        new DITAExporter(TEMP_DIR).export(sequence);
+        new DITAExporter(TEMP_DIR).export(dmx.getTopic(topicmapId), sequence);
     }
 
     // ----------------------------------------------------------------------------------------- Package Private Methods
