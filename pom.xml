@@ -109,11 +109,6 @@
             <version>1.7.25</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <version>1.7.25</version>
-        </dependency>
-        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
@@ -165,7 +160,7 @@
                         <Embed-Dependency>
                             dost, ant, ant-launcher, ant-apache-resolver,
                             commons-io, xercesImpl, xml-apis, xml-resolver, Saxon-HE, icu4j,
-                            guava, slf4j-api, slf4j-jdk14, logback-classic, logback-core,
+                            guava, slf4j-api, logback-classic, logback-core,
                             jackson-core, jackson-databind, jackson-dataformat-yaml, jing
                         </Embed-Dependency>
                     </instructions>
