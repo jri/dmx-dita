@@ -1,7 +1,7 @@
 package systems.dmx.dita;
 
-import systems.dmx.core.service.CoreService;
 import systems.dmx.core.RelatedTopic;
+import systems.dmx.core.service.CoreService;
 import systems.dmx.topicmaps.TopicmapsService;
 
 import java.util.List;

@@ -27,10 +27,11 @@ class DITAExporter {
     public static final String DOCTYPE_TOPIC = "<!DOCTYPE topic PUBLIC \"-//OASIS//DTD DITA Topic//EN\" \"topic.dtd\">";
     public static final String DOCTYPE_MAP   = "<!DOCTYPE map PUBLIC \"-//OASIS//DTD DITA Map//EN\" \"map.dtd\">";
 
+    private static final XMLOutputFactory xmlFactory = XMLOutputFactory.newFactory();
+
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
     private File outputDir;
-    private XMLOutputFactory xmlFactory;
 
     private Logger logger = Logger.getLogger(getClass().getName());
 
@@ -38,7 +39,6 @@ class DITAExporter {
 
     DITAExporter(File outputDir) {
         this.outputDir = outputDir;
-        this.xmlFactory = XMLOutputFactory.newFactory();
     }
 
     // ----------------------------------------------------------------------------------------- Package Private Methods
