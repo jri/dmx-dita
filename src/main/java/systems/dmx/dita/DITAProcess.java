@@ -60,16 +60,17 @@ class DITAProcess {
             //
             ProcessorFactory pf = ProcessorFactory.newInstance(DITA_DIR);
             pf.setBaseTempDir(TEMP_DIR);
-            // Create a processor using the factory and configure the processor
+            //
             Processor p = pf.newProcessor("html5")
                 //.setInput(new File("/usr/local/Cellar/dita-ot/3.4/libexec/docsrc/samples/sequence.ditamap"))
                 .setInput(new File(TEMP_DIR, topicmapId + ".xml"))
                 .setOutputDir(OUTPUT_DIR);
                 //.setProperty("nav-toc", "partial");
-            //
             p.run();
+            //
+            logger.info("DITA-OT processing successful");
         } catch (Exception e) {
-            throw new RuntimeException("Running DITA-OT failed", e);
+            throw new RuntimeException("DITA-OT processing failed", e);
         } finally {
             Thread.currentThread().setContextClassLoader(currentClassLoader);
         }
@@ -109,11 +110,11 @@ class DITAProcess {
     }
 
     private void logDebugInfo(ClassLoader currentClassLoader, ClassLoader bundleClassloader) {
-        logger.info("### org.osgi.framework.bootdelegation=" + System.getProperty("org.osgi.framework.bootdelegation"));
-        logger.info("### org.osgi.framework.system.packages.extra=" +
-            System.getProperty("org.osgi.framework.system.packages.extra") + "\n");
-        logger.info("### Current ClassLoader=" + currentClassLoader + ", parent=" + currentClassLoader.getParent());
-        logger.info("### Bundle ClassLoader=" + bundleClassloader + ", parent=" + bundleClassloader.getParent() + "\n");
-        logger.info("### Available transtypes=" + Configuration.transtypes + "\n");
+        logger.info("org.osgi.framework.bootdelegation=" + System.getProperty("org.osgi.framework.bootdelegation") +
+            "\n      org.osgi.framework.system.packages.extra=" +
+            System.getProperty("org.osgi.framework.system.packages.extra") +
+            "\n      Current ClassLoader=" + currentClassLoader + ", parent=" + currentClassLoader.getParent() +
+            "\n      Bundle ClassLoader=" + bundleClassloader + ", parent=" + bundleClassloader.getParent() +
+            "\n      Available transtypes=" + Configuration.transtypes);
     }
 }

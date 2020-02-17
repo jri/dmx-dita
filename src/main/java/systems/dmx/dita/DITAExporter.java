@@ -7,8 +7,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.html.HTML.Tag;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.parser.ParserDelegator;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -56,7 +62,7 @@ class DITAExporter {
             writer.writeCharacters(ct.getString("dmx.dita.title"));
             writer.writeEndElement();
             writer.writeStartElement("body");
-            writer.writeCharacters(ct.getString("dmx.dita.body"));
+            parseHTML(ct.getString("dmx.dita.body"), writer);
             writer.writeEndElement();
             writer.writeEndElement();
             writer.writeEndDocument();
@@ -95,5 +101,80 @@ class DITAExporter {
 
     private BufferedWriter newFileWriter(String filename) throws IOException {
         return new BufferedWriter(new FileWriter(new File(outputDir, filename)));
+    }
+
+    // --- HTML -> XHTML ---
+
+    private static final List TAG_FILTER = Arrays.asList("html", "head", "body", "span", "br");
+
+    private void parseHTML(String html, XMLStreamWriter writer) {
+        try {
+            new ParserDelegator().parse(
+                new StringReader(html),
+                new XMLWriterCallback(writer),
+                false       // ignoreCharSet
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("HTML parsing failed", e);
+        }
+    }
+
+    private class XMLWriterCallback extends HTMLEditorKit.ParserCallback {
+
+        private XMLStreamWriter writer;
+
+        private XMLWriterCallback(XMLStreamWriter writer) {
+            this.writer = writer;
+        }
+
+        @Override
+        public void handleStartTag(Tag t, MutableAttributeSet a, int pos) {
+            try {
+                if (filter(t)) {
+                    // logger.info("# start " + t + ", " + a + ", pos=" + pos);
+                    writer.writeStartElement(t.toString());
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Writing to XML file failed", e);
+            }
+        }
+
+        @Override
+        public void handleSimpleTag(Tag t, MutableAttributeSet a, int pos) {
+            try {
+                if (filter(t)) {
+                    // logger.info("# simple " + t + ", " + a + ", pos=" + pos);
+                    writer.writeEmptyElement(t.toString());
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Writing to XML file failed", e);
+            }
+        }
+
+        @Override
+        public void handleEndTag(Tag t, int pos) {
+            try {
+                if (filter(t)) {
+                    // logger.info("# end " + t + ", pos=" + pos);
+                    writer.writeEndElement();
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Writing to XML file failed", e);
+            }
+        }
+
+        @Override
+        public void handleText(char[] data, int pos) {
+            try {
+                // logger.info("# text " + new String(data) + ", pos=" + pos);
+                writer.writeCharacters(new String(data));
+            } catch (Exception e) {
+                throw new RuntimeException("Writing to XML file failed", e);
+            }
+        }
+
+        private boolean filter(Tag t) {
+            return !TAG_FILTER.contains(t.toString());
+        }
     }
 }
