@@ -75,7 +75,8 @@ class DITAProcess {
             pf.newProcessor("html5")
                 //.setInput(new File("/usr/local/Cellar/dita-ot/3.4/libexec/docsrc/samples/sequence.ditamap"))
                 .setInput(new File(TEMP_DIR, topicmapId + ".xml"))
-                .setOutputDir(OUTPUT_DIR);
+                .setOutputDir(OUTPUT_DIR)
+                //.createDebugLog(false)
                 //.setProperty("nav-toc", "partial")
                 .run();
             //
