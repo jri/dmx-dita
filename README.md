@@ -15,7 +15,7 @@ Generate publications in various output formats (HTML5, PDF, ...) by the means o
 ### Configure
 
 Add 3 settings to DMX's `conf/config.properties`:
-```
+```properties
 # absolute directory where DITA-OT is installed
 dmx.dita.install_dir = /path/to/dita-ot
 
