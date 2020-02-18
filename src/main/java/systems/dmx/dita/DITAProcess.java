@@ -22,9 +22,9 @@ class DITAProcess {
     // ------------------------------------------------------------------------------------------------------- Constants
 
     // TODO: use system properties
-    private static final File DITA_DIR   = new File("/usr/local/Cellar/dita-ot/3.4/libexec");
-    private static final File OUTPUT_DIR = new File("/Users/jri/Documents/Test/dita-ot");
-    private static final File TEMP_DIR   = new File("/Users/jri/Documents/Test/dita-ot/tmp");
+    private static final File DITA_DIR   = new File(System.getProperty("dmx.dita.install_dir", ""));
+    private static final File OUTPUT_DIR = new File(System.getProperty("dmx.dita.output_dir", ""));
+    private static final File TEMP_DIR   = new File(System.getProperty("dmx.dita.temp_dir", ""));
 
     private static final DITAExporter exporter = new DITAExporter(TEMP_DIR);
     private static final ProcessorFactory pf = ProcessorFactory.newInstance(DITA_DIR);
