@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "webpack -p --hide-modules",
-    "stats": "webpack -p --json > stats.json && ../../node_modules/.bin/webpack-bundle-analyzer stats.json src/main/resources/web"
+    "stats": "webpack -p --json > stats.json && webpack-bundle-analyzer stats.json src/main/resources/web"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
