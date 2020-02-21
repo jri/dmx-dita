@@ -13,5 +13,8 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-  ]
+  ],
+  stats: {
+    entrypoints: false
+  }
 }
