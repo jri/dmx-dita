@@ -76,12 +76,9 @@ class DITAProcess {
             Thread.currentThread().setContextClassLoader(bundleClassloader);
             logDebugInfo(currentClassLoader, bundleClassloader);
             //
-            pf.newProcessor("html5")
-                //.setInput(new File("/usr/local/Cellar/dita-ot/3.4/libexec/docsrc/samples/sequence.ditamap"))
+            pf.newProcessor(getOutputFormat())
                 .setInput(new File(TEMP_DIR, topicmapId + ".xml"))
                 .setOutputDir(OUTPUT_DIR)
-                //.createDebugLog(false)
-                //.setProperty("nav-toc", "partial")
                 .run();
             //
             logger.info("DITA-OT processing successful");
@@ -123,6 +120,18 @@ class DITAProcess {
             throw new RuntimeException("Finding next topic in sequence failed", e);
         }
     }
+
+    // ---
+
+    private String getOutputFormat() {
+        String outputFormat = dmx.getTopic(processorId).getChildTopics().getStringOrNull(DITA_OUTPUT_FORMAT);
+        if (outputFormat == null) {
+            throw new RuntimeException("Output format not set");
+        }
+        return outputFormat;
+    }
+
+    // ---
 
     private void logDebugInfo(ClassLoader currentClassLoader, ClassLoader bundleClassloader) {
         logger.info("org.osgi.framework.bootdelegation=" + System.getProperty("org.osgi.framework.bootdelegation") +
