@@ -42,7 +42,7 @@
       "dataTypeUri": "dmx.core.text"
     },
     {
-      "value":       "DITA Output Format",
+      "value":       "Output Format",
       "uri":         "dmx.dita.output_format",
       "dataTypeUri": "dmx.core.text"
     },

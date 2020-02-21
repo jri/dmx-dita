@@ -62,6 +62,10 @@ class DITAProcess {
         runProcessor();
     }
 
+    static List<String> getTranstypes() {
+        return Configuration.transtypes;
+    }
+
     // ------------------------------------------------------------------------------------------------- Private Methods
 
     private void runProcessor() {
@@ -102,8 +106,7 @@ class DITAProcess {
 
     private Topic findStartTopic(long processorId) {
         try {
-            Topic topic = tmNav.getRelatedTopic(processorId, PROCESSOR_START, ROLE_TYPE_PROCESSOR, ROLE_TYPE_START,
-                null);
+            Topic topic = tmNav.getRelatedTopic(processorId, PROCESSOR_START, ROLE_PROCESSOR, ROLE_START, null);
             if (topic == null) {
                 throw new RuntimeException("No start topic defined");
             }
@@ -115,7 +118,7 @@ class DITAProcess {
 
     private Topic findNextTopic(long topicId) {
         try {
-            return tmNav.getRelatedTopic(topicId, SEQUENCE, ROLE_TYPE_PREDECESSOR, ROLE_TYPE_SUCCESSOR, null);
+            return tmNav.getRelatedTopic(topicId, SEQUENCE, ROLE_PREDECESSOR, ROLE_SUCCESSOR, null);
         } catch (Exception e) {
             throw new RuntimeException("Finding next topic in sequence failed", e);
         }

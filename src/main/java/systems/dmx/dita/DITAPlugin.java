@@ -3,9 +3,11 @@ package systems.dmx.dita;
 import static systems.dmx.dita.Constants.*;
 
 import systems.dmx.core.model.AssocModel;
+import systems.dmx.core.model.SimpleValue;
 import systems.dmx.core.osgi.PluginActivator;
 import systems.dmx.core.service.Inject;
 import systems.dmx.core.service.event.PreCreateAssoc;
+import systems.dmx.core.storage.spi.DMXTransaction;
 import systems.dmx.core.util.DMXUtils;
 import systems.dmx.topicmaps.TopicmapsService;
 
@@ -34,6 +36,8 @@ public class DITAPlugin extends PluginActivator implements PreCreateAssoc {
 
     // -------------------------------------------------------------------------------------------------- Public Methods
 
+    // DITA Service
+
     @PUT
     @Path("/process/{id}/topicmap/{topicmapId}")
     public void process(@PathParam("id") long processorId, @PathParam("topicmapId") long topicmapId) {
@@ -45,12 +49,29 @@ public class DITAPlugin extends PluginActivator implements PreCreateAssoc {
         }
     }
 
+    // Hooks
+
+    @Override
+    public void init() {
+        DMXTransaction tx = dmx.beginTx();
+        try {
+            DITAProcess.getTranstypes().forEach(transtype -> {
+                dmx.createTopic(mf.newTopicModel(DITA_OUTPUT_FORMAT, new SimpleValue(transtype)));
+            });
+            tx.success();
+        } catch (Exception e) {
+            logger.warning("ROLLBACK! (" + this + ")");
+            throw new RuntimeException("Creating \"Output Format\" topics failed", e);
+        } finally {
+            tx.finish();
+        }
+    }
+
     // Listeners
 
     @Override
     public void preCreateAssoc(AssocModel assoc) {
         // DITA Topic <-> DITA Topic
-        DMXUtils.associationAutoTyping(assoc, DITA_TOPIC, DITA_TOPIC,
-            SEQUENCE, ROLE_TYPE_PREDECESSOR, ROLE_TYPE_SUCCESSOR);
+        DMXUtils.associationAutoTyping(assoc, DITA_TOPIC, DITA_TOPIC, SEQUENCE, ROLE_PREDECESSOR, ROLE_SUCCESSOR);
     }
 }
