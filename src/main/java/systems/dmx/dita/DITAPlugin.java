@@ -3,10 +3,13 @@ package systems.dmx.dita;
 import static systems.dmx.dita.Constants.*;
 
 import systems.dmx.core.model.AssocModel;
+import systems.dmx.core.model.ChildTopicsModel;
 import systems.dmx.core.model.SimpleValue;
+import systems.dmx.core.model.TopicModel;
 import systems.dmx.core.osgi.PluginActivator;
 import systems.dmx.core.service.Inject;
 import systems.dmx.core.service.event.PreCreateAssoc;
+import systems.dmx.core.service.event.PreCreateTopic;
 import systems.dmx.core.storage.spi.DMXTransaction;
 import systems.dmx.core.util.DMXUtils;
 import systems.dmx.topicmaps.TopicmapsService;
@@ -25,7 +28,7 @@ import java.util.logging.Logger;
 @Path("/dita")
 @Consumes("application/json")
 @Produces("application/json")
-public class DITAPlugin extends PluginActivator implements PreCreateAssoc {
+public class DITAPlugin extends PluginActivator implements PreCreateTopic, PreCreateAssoc {
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -68,6 +71,16 @@ public class DITAPlugin extends PluginActivator implements PreCreateAssoc {
     }
 
     // Listeners
+
+    @Override
+    public void preCreateTopic(TopicModel topic) {
+        if (topic.getTypeUri().equals(DITA_PROCESSOR)) {
+            ChildTopicsModel ctm = topic.getChildTopicsModel();
+            if (ctm.getString(DITA_OUTPUT_FORMAT, "").equals("")) {
+                ctm.put(DITA_OUTPUT_FORMAT, "html5");
+            }
+        }
+    }
 
     @Override
     public void preCreateAssoc(AssocModel assoc) {
