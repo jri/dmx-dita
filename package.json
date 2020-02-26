@@ -1,6 +1,6 @@
 {
   "name": "dmx-dita",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Publishing engine for content authored in the Darwin Information Typing Architecture",
   "author": "Jörg Richter <jri@dmx.berlin>",
   "license": "AGPL-3.0",

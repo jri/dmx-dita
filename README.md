@@ -40,6 +40,10 @@ dmx.dita.temp_dir = /path/to/temp/dir
 
 ## Version History
 
+**0.2** -- Feb 26, 2020
+
+* Output format selectable by user
+
 **0.1** -- Feb 18, 2020
 
 * Content types: "DITA Topic"
