@@ -75,9 +75,9 @@ public class DITAPlugin extends PluginActivator implements PreCreateTopic, PreCr
     @Override
     public void preCreateTopic(TopicModel topic) {
         if (topic.getTypeUri().equals(DITA_PROCESSOR)) {
-            ChildTopicsModel ctm = topic.getChildTopicsModel();
+            ChildTopicsModel ctm = topic.getChildTopics();
             if (ctm.getString(DITA_OUTPUT_FORMAT, "").equals("")) {
-                ctm.put(DITA_OUTPUT_FORMAT, "html5");
+                ctm.set(DITA_OUTPUT_FORMAT, "html5");
             }
         }
     }
@@ -85,6 +85,6 @@ public class DITAPlugin extends PluginActivator implements PreCreateTopic, PreCr
     @Override
     public void preCreateAssoc(AssocModel assoc) {
         // DITA Topic <-> DITA Topic
-        DMXUtils.associationAutoTyping(assoc, DITA_TOPIC, DITA_TOPIC, SEQUENCE, ROLE_PREDECESSOR, ROLE_SUCCESSOR);
+        DMXUtils.assocAutoTyping(assoc, DITA_TOPIC, DITA_TOPIC, SEQUENCE, ROLE_PREDECESSOR, ROLE_SUCCESSOR);
     }
 }

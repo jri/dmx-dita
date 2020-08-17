@@ -124,7 +124,7 @@ class DITAProcess {
     // ---
 
     private String getOutputFormat() {
-        String outputFormat = dmx.getTopic(processorId).getChildTopics().getStringOrNull(DITA_OUTPUT_FORMAT);
+        String outputFormat = dmx.getTopic(processorId).getChildTopics().getString(DITA_OUTPUT_FORMAT, null);
         if (outputFormat == null) {
             throw new RuntimeException("Output format not set");
         }
