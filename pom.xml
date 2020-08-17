@@ -7,14 +7,13 @@
     <name>DMX DITA</name>
     <groupId>systems.dmx</groupId>
     <artifactId>dmx-dita</artifactId>
-    <version>0.2</version>
+    <version>0.2.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <parent>
         <groupId>systems.dmx</groupId>
         <artifactId>dmx-plugin</artifactId>
         <version>5.0-beta-7-SNAPSHOT</version>
-        <relativePath>../../modules/dmx-plugin/pom.xml</relativePath>
     </parent>
 
     <dependencies>

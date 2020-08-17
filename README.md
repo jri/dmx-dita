@@ -19,7 +19,7 @@ Add 3 settings to DMX's `conf/config.properties`:
 # absolute directory where DITA-OT is installed
 dmx.dita.install_dir = /path/to/dita-ot
 
-# absolute output directory; if not exsits this directory is created
+# absolute output directory; if not exists this directory is created
 dmx.dita.output_dir = /path/to/output/dir
 
 # absolute directory for temporary files and debug logs; this directory must exist
@@ -47,5 +47,5 @@ dmx.dita.temp_dir = /path/to/temp/dir
 **0.1** -- Feb 18, 2020
 
 * Content types: "DITA Topic"
-* Structues: sequence
+* Structures: sequence
 * Output formats: HTML5
