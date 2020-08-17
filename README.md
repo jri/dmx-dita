@@ -40,6 +40,10 @@ dmx.dita.temp_dir = /path/to/temp/dir
 
 ## Version History
 
+**0.2.1** -- Aug 17, 2020
+
+- Compatible with DMX 5.0
+
 **0.2** -- Feb 26, 2020
 
 * Output format selectable by user

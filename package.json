@@ -1,12 +1,12 @@
 {
   "name": "dmx-dita",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Publishing engine for content authored in the Darwin Information Typing Architecture",
   "author": "Jörg Richter <jri@dmx.berlin>",
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jri/dmx-dita.git"
+    "url": "https://git.dmx.systems/dmx-plugins/dmx-dita.git"
   },
   "scripts": {
     "build": "webpack -p --hide-modules",
