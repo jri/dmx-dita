@@ -14,7 +14,7 @@
     {
       "value":       "DITA Topic",
       "uri":         "dmx.dita.topic",
-      "dataTypeUri": "dmx.core.identity",
+      "dataTypeUri": "dmx.core.entity",
       "compDefs": [
         {
           "childTypeUri":        "dmx.dita.title",
@@ -49,7 +49,7 @@
     {
       "value":       "DITA Processor",
       "uri":         "dmx.dita.processor",
-      "dataTypeUri": "dmx.core.identity",
+      "dataTypeUri": "dmx.core.entity",
       "compDefs": [
         {
           "childTypeUri":        "dmx.dita.processor_name",
